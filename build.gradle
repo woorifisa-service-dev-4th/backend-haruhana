@@ -45,6 +45,11 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // AWS
+    // Reference: https://github.com/aws/aws-sdk-java-v2
+    implementation platform('software.amazon.awssdk:bom:2.30.16') // BOM 적용. AWS SDK 모듈들이 자동으로 2.30.16 버전에 맞춰짐
+    implementation 'software.amazon.awssdk:s3'
+
     // MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
 
