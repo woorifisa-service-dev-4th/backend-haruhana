@@ -32,6 +32,8 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew bootJar
+        env:
+          APP_VERSION: ${{ github.event.release.tag_name }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -86,14 +88,16 @@ jobs:
           port: 22
           script: |
             sudo chmod 666 /var/run/docker.sock
-            
+
             docker stop server || true
             docker rm server || true
             docker rmi ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_NAME }}:latest || true
-            
+
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
             docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.AWS_HARUHANA_ECR_NAMESPACE }}/${{ secrets.AWS_HARUHANA_ECR_REPO_NAME }}:latest
-            sudo docker run --name server -dp 8080:8080 ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.AWS_HARUHANA_ECR_NAMESPACE }}/${{ secrets.AWS_HARUHANA_ECR_REPO_NAME }}:latest
+            sudo docker run --name server -dp 8080:8080 \
+              -e APP_VERSION=${{ github.event.release.tag_name }} \
+              ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.AWS_HARUHANA_ECR_NAMESPACE }}/${{ secrets.AWS_HARUHANA_ECR_REPO_NAME }}:latest
 
       - name: Remove GitHub Actions IP from Security group
         if: always()
