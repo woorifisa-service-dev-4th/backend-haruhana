@@ -48,6 +48,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt:0.12.6'
+
     // AWS
     // Reference: https://github.com/aws/aws-sdk-java-v2
     implementation platform('software.amazon.awssdk:bom:2.30.16') // BOM 적용. AWS SDK 모듈들이 자동으로 2.30.16 버전에 맞춰짐
