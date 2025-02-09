@@ -12,6 +12,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import site.haruhana.www.oauth.CustomOAuth2UserService;
+import site.haruhana.www.oauth.handler.OAuth2LoginFailureHandler;
+import site.haruhana.www.oauth.handler.OAuth2LoginSuccessHandler;
 
 import java.util.List;
 
@@ -25,7 +28,13 @@ public class SecurityConfig {
     private String allowedOrigins;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            CustomOAuth2UserService customOAuth2UserService,
+            OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler,
+            OAuth2LoginFailureHandler oAuth2LoginFailureHandler
+    ) throws Exception {
+
         return http
                 .csrf(AbstractHttpConfigurer::disable) // Rest API 사용으로 CSRF 비활성화.
                 .cors(cors -> {
@@ -43,6 +52,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().permitAll() // FixMe: 현재 모든 요청을 허용하고 있지만, 추후 인증 관련 API가 개발되면 수정 필요.
+                )
+                .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
+                        .userInfoEndpoint(
+                                userInfoEndpoint -> userInfoEndpoint.userService(customOAuth2UserService)
+                        )
+                        .failureHandler(oAuth2LoginFailureHandler)
+                        .successHandler(oAuth2LoginSuccessHandler)
                 )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWT 사용으로 세션 비활성화.
