@@ -9,5 +9,4 @@ class HaruhanaApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
