@@ -30,10 +30,5 @@ public class Problems  {
     private String answer; // 정답
     private Date problemDate; // 문제가 생성된 날짜
 
-    /**
-     * 해당 문제의 시도 기록 (문제 삭제 시 해당 풀이 기록도 삭제됨)
-     */
-    @OneToMany(mappedBy = "problems",  cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Attempts> attempts = new ArrayList<>();
 
 }

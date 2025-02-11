@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+// 한 문제에 대한 사용자 풀이 기록
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,8 +41,5 @@ public class Attempts {
     private Integer userInput; // 사용자 제출 값
     private Integer retryCount; // 같은 문제에 대한 재시도 횟수
     private Boolean success; // 풀이의 성공 여부
-
-    @OneToMany(mappedBy = "attempts", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<UserProficiency> userProficiencies = new ArrayList<>();
 
 }
