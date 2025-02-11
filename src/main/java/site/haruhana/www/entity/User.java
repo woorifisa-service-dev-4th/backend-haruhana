@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.haruhana.www.utils.EncryptUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -55,6 +58,20 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    /**
+     * 사용자 삭제 여부 (소프트 삭제 처리를 위함)
+     */
+    private boolean status;
+
+    /**
+     * 사용자의 풀이 기록 (User 삭제 시 관련 Attempts 자동 삭제)
+     */
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Attempts> attempts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<UserProficiency> userProficiencies = new ArrayList<>();
 
     /**
      * 사용자 비밀번호를 업데이트하는 메소드
