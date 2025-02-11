@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "category")
+@Table(name = "categories")
 public class Category {
 
     @Id
@@ -22,5 +22,5 @@ public class Category {
 
     // 카테고리에서 문제 목록을 가져오기 위해 양방향 관계로 설정
     @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    List<Problems> problems = new ArrayList<>();
+    List<Problem> problems = new ArrayList<>();
 }

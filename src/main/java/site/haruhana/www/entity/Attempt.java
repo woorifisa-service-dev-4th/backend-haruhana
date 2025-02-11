@@ -7,16 +7,14 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 // 한 문제에 대한 사용자 풀이 기록
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="attempts")
-public class Attempts {
+public class Attempt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +25,7 @@ public class Attempts {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE) // 문제 삭제 시 풀이 자동 삭제
-    private Problems problem; // 풀이 시도한 문제 정보
+    private Problem problem; // 풀이 시도한 문제 정보
 
     /* 한명의 사용자가 여러번의 풀이 진행 가능 */
     @ManyToOne(fetch = FetchType.LAZY)

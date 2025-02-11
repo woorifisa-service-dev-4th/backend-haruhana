@@ -6,15 +6,13 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="problems")
-public class Problems  {
+public class Problem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
