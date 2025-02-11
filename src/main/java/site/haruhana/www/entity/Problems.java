@@ -3,6 +3,8 @@ package site.haruhana.www.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +24,7 @@ public class Problems  {
     /* 하나의 카테고리에는 여러개의 문제 속할 수 있음 */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE) // 카테고리 삭제 시 문제 자동 삭제
     private Category category; // 해당 문제의 카테고리 분류
 
     private String title; // 문제 제목

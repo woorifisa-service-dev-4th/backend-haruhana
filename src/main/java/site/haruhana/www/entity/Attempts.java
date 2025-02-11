@@ -3,6 +3,8 @@ package site.haruhana.www.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -21,19 +23,17 @@ public class Attempts {
     @Column(name = "attempt_id")
     private Long id; // 풀이 id
 
-    /* 하나의 문제에 대해 여러번의 풀이 진행 가능 */
+    /* 하나의 문제에 대해 여러번의 풀이 진행 가능 (단방향) */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE) // 문제 삭제 시 풀이 자동 삭제
     private Problems problem; // 풀이 시도한 문제 정보
 
     /* 한명의 사용자가 여러번의 풀이 진행 가능 */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE) // 사용자 삭제 시 풀이 기록 자동 삭제
     private User user; // 풀이 시도한 사용자 정보
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_proficiency_id")
-    private UserProficiency userProficiency;
 
     private Date attemptDate; // 풀이 시도 날짜
     private Duration attemptTime; // 문제 푸는데 걸린 시간
