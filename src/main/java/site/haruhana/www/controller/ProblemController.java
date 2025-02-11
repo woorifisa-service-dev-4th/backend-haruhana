@@ -54,7 +54,6 @@ public class ProblemController {
         return ResponseEntity.noContent().build();
     }
 
-    // problems?category=
 
     @GetMapping("/problems")
     public ResponseEntity<List<Problem>> getProblemsByCategory(@RequestParam Long category, @PageableDefault  Pageable pageable) {
