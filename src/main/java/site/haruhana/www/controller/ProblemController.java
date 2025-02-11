@@ -2,14 +2,18 @@ package site.haruhana.www.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import site.haruhana.www.dto.ProblemDto;
 import site.haruhana.www.entity.Problem;
 import site.haruhana.www.service.ProblemService;
 
 import java.util.List;
-
+import java.util.NoSuchElementException;
 
 
 @RestController
@@ -25,8 +29,13 @@ public class ProblemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Problem> getProblemById(@PathVariable Long id) {
-        return ResponseEntity.ok(problemService.getProblemById(id));
+    public ResponseEntity<ProblemDto> getProblemById(@PathVariable Long id) {
+        try {
+            ProblemDto problemDto = problemService.getProblemDtoById(id);
+            return ResponseEntity.ok(problemDto);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
@@ -47,13 +56,13 @@ public class ProblemController {
 
     // problems?category=
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<Problem>> getProblemsByCategory(@PathVariable Long categoryId) {
-        List<Problem> problems = problemService.getProblemsByCategoryId(categoryId);
+    @GetMapping("/problems")
+    public ResponseEntity<List<Problem>> getProblemsByCategory(@RequestParam Long category, @PageableDefault  Pageable pageable) {
+        Page<Problem> page = problemService.getProblemsByCategoryId(category, pageable);
+        List<Problem> problems = page.getContent();
         if (problems.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(problems);
     }
-
 }
