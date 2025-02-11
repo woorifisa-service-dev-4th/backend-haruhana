@@ -73,9 +73,12 @@ public class User extends BaseTimeEntity {
         this.encryptedPassword = EncryptUtil.encrypt(rawPassword);
     }
 
-    /* Users 테이블에서 Attempts 기록들 가져올 수 있게 하기 위해 양방향 설정 */
+    /**
+     * 사용자별 풀이 기록
+     */
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     List<Attempt> attempts = new ArrayList<>();
+    /* Users 테이블에서 Attempts 기록들 가져올 수 있게 하기 위해 양방향 설정 */
 
     @Builder
     public User(String name, String email, String rawPassword, AuthProvider provider,
