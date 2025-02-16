@@ -5,7 +5,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.haruhana.www.dto.MonthlyUserSolveHistoryDTO;
 import site.haruhana.www.dto.MonthlyUserSolveHistoryDTO.DailySolveStatus;
+import site.haruhana.www.dto.SignUpRequestDto;
+import site.haruhana.www.dto.UserDto;
+import site.haruhana.www.entity.AuthProvider;
+import site.haruhana.www.entity.User;
+import site.haruhana.www.exception.DuplicateEmailException;
 import site.haruhana.www.repository.AttemptRepository;
+import site.haruhana.www.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -20,7 +26,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final UserRepository userRepository;
+
     private final AttemptRepository attemptRepository;
+
+    @Transactional
+    public UserDto signUp(SignUpRequestDto request) {
+        // 이메일 중복 확인
+        if (userRepository.existsByProviderAndEmail(AuthProvider.LOCAL, request.getEmail())) {
+            throw new DuplicateEmailException(request.getEmail());
+        }
+
+        User savedUser = userRepository.save(new User(request));
+        return new UserDto(savedUser);
+    }
 
     /**
      * 특정 사용자의 월별 문제 풀이 기록을 조회하는 메소드
