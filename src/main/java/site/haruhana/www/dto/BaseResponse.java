@@ -33,6 +33,10 @@ public class BaseResponse<T> {
         return new BaseResponse<>(false, 400, message, null);
     }
 
+    public static <T> BaseResponse<T> onBadRequest(String message, T errors) {
+        return new BaseResponse<>(false, 400, message, errors);
+    }
+
     public static <T> BaseResponse<T> onUnauthorized(String message) {
         return new BaseResponse<>(false, 401, message, null);
     }
