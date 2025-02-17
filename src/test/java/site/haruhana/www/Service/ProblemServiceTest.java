@@ -140,4 +140,23 @@ class ProblemServiceTest {
         verify(problemRepository).existsById(problemId);
         verify(problemRepository).deleteById(problemId);
     }
+
+    @Test
+    @DisplayName("모든 문제 목록을 조회하면 페이지네이션된 문제 목록을 반환한다")
+    void getAllProblems() {
+        // given: 페이지 정보와 예상되는 문제 목록이 주어졌을 때
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        List<Problem> problems = List.of(createTestProblem(), createTestProblem());
+        Page<Problem> problemPage = new PageImpl<>(problems);
+        
+        given(problemRepository.findAll(pageRequest)).willReturn(problemPage);
+        
+        // when: 모든 문제를 조회하면
+        Page<ProblemDto> result = problemService.getAllProblems(pageRequest);
+        
+        // then: 페이지네이션된 문제 목록이 반환된다
+        assertNotNull(result, "반환된 페이지는 null이 아니어야 합니다");
+        assertEquals(2, result.getContent().size(), "반환된 문제 수가 일치해야 합니다");
+        verify(problemRepository).findAll(pageRequest);
+    }
 }

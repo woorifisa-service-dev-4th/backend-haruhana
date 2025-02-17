@@ -16,6 +16,7 @@ public class ProblemConverter {
                 .problemCategory(dto.getProblemCategory())
                 .build();
     }
+
     public ProblemDto toDto(Problem entity) {
         return ProblemDto.builder()
                 .id(entity.getId())

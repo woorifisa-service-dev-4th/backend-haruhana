@@ -64,11 +64,10 @@ public class ProblemService {
         return problemConverter.toDto(createdProblem);
     }
 
-
     /**
      * 기존의 문제를 업데이트하는 메소드
      *
-     * @param id             업데이트할 문제의 ID
+     * @param id            업데이트할 문제의 ID
      * @param newProblemDto 업데이트할 문제 정보가 담긴 엔티티
      * @return 업데이트된 문제 엔티티
      */

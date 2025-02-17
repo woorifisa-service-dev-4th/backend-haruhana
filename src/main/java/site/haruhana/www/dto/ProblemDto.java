@@ -11,6 +11,7 @@ import site.haruhana.www.entity.ProblemCategory;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class ProblemDto {
     private Long id;
     private String title;
