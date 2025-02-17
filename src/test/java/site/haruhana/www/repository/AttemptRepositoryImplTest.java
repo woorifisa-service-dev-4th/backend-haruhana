@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import site.haruhana.www.config.JpaAuditingConfig;
 import site.haruhana.www.config.QuerydslConfig;
 import site.haruhana.www.entity.*;
 
@@ -16,7 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(QuerydslConfig.class)
+@Import({QuerydslConfig.class, JpaAuditingConfig.class})
 class AttemptRepositoryImplTest {
 
     @Autowired
