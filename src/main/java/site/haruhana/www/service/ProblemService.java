@@ -13,8 +13,6 @@ import site.haruhana.www.exception.ProblemNotFoundException;
 import site.haruhana.www.repository.ProblemRepository;
 import site.haruhana.www.converter.ProblemConverter;
 
-import java.util.NoSuchElementException;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
