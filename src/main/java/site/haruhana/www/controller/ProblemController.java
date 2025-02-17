@@ -52,10 +52,10 @@ public class ProblemController {
     }
 
     @PutMapping("/{id}")
-    public BaseResponse<ProblemDto> updateProblem(@PathVariable Long id, @RequestBody ProblemDto problemDto) {
+    public BaseResponse<ProblemDto> updateProblem(@PathVariable Long id, @RequestBody ProblemDto newProblemDto) {
         try {
-            ProblemDto updatedProblem = problemService.updateProblem(id, problemDto);
-            return BaseResponse.onSuccess("문제가 성공적으로 수정되었습니다", updatedProblem);
+            ProblemDto modifiedProblem = problemService.updateProblem(id, newProblemDto);
+            return BaseResponse.onSuccess("문제가 성공적으로 수정되었습니다", modifiedProblem);
         } catch (ProblemNotFoundException e) {
             return BaseResponse.onNotFound("수정할 문제를 찾을 수 없습니다");
         }
