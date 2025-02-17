@@ -24,9 +24,11 @@ public class ProblemController {
     @GetMapping
     public BaseResponse<Page<ProblemDto>> getAllProblems(Pageable pageable) {
         Page<ProblemDto> problems = problemService.getAllProblems(pageable);
-        return problems.isEmpty()
-                ? BaseResponse.onSuccess("조회된 문제가 없습니다", problems)
-                : BaseResponse.onSuccess("문제 목록 조회에 성공했습니다", problems);
+        if (problems.isEmpty()) {
+            return BaseResponse.onSuccess("조회된 문제가 없습니다", problems);
+        } else {
+            return BaseResponse.onSuccess("문제 목록 조회에 성공했습니다", problems);
+        }
     }
 
     @GetMapping("/{problemId}")
