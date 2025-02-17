@@ -1,4 +1,4 @@
-package site.haruhana.www.Service;
+package site.haruhana.www.service;
 
 
 import org.junit.jupiter.api.DisplayName;

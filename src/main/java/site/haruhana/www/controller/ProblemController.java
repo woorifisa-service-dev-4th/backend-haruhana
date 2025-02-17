@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import site.haruhana.www.Service.ProblemService;
+import site.haruhana.www.service.ProblemService;
 import site.haruhana.www.dto.BaseResponse;
 import site.haruhana.www.dto.ProblemDto;
 import site.haruhana.www.entity.Problem;
