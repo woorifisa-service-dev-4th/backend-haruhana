@@ -54,6 +54,15 @@ public class Problem extends BaseTimeEntity {
     @Column(name = "category_id")
     private ProblemCategory problemCategory;
 
+    @Builder
+    public Problem(String title, String description, int level, String answer, ProblemCategory problemCategory) {
+        this.title = title;
+        this.description = description;
+        this.level = level;
+        this.answer = answer;
+        this.problemCategory = problemCategory;
+    }
+
     /**
      * 문제 정보를 갱신하는 메소드
      *
