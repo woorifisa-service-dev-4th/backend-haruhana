@@ -58,10 +58,10 @@ public class ProblemService {
         log.info("신규 문제 생성 시작 - 제목: {}", problemDto.getTitle());
         Problem problem = problemConverter.toEntity(problemDto);
 
-        Problem savedProblem = problemRepository.save(problem);
-        log.info("문제 생성 완료 - 문제 ID: {}", savedProblem.getId());
+        Problem createdProblem = problemRepository.save(problem);
+        log.info("문제 생성 완료 - 문제 ID: {}", createdProblem.getId());
 
-        return problemConverter.toDto(savedProblem);
+        return problemConverter.toDto(createdProblem);
     }
 
 
@@ -69,21 +69,21 @@ public class ProblemService {
      * 기존의 문제를 업데이트하는 메소드
      *
      * @param id             업데이트할 문제의 ID
-     * @param updatedProblem 업데이트할 문제 정보가 담긴 엔티티
+     * @param newProblemDto 업데이트할 문제 정보가 담긴 엔티티
      * @return 업데이트된 문제 엔티티
      */
     @Transactional
-    public ProblemDto updateProblem(Long id, ProblemDto updatedProblemDto) {
+    public ProblemDto updateProblem(Long id, ProblemDto newProblemDto) {
         log.info("문제 수정 시작 - 문제 ID: {}", id);
         Problem problem = problemRepository.findById(id)
                 .orElseThrow(() -> new ProblemNotFoundException("수정할 문제를 찾을 수 없습니다."));
 
-        problem.update(updatedProblemDto);
+        problem.update(newProblemDto);
 
-        Problem updatedProblem = problemRepository.save(problem);
+        Problem modifiedProblem = problemRepository.save(problem);
         log.info("문제 수정 완료 - 문제 ID: {}", id);
 
-        return problemConverter.toDto(updatedProblem);
+        return problemConverter.toDto(modifiedProblem);
     }
 
     /**
