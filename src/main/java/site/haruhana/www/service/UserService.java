@@ -7,11 +7,17 @@ import site.haruhana.www.dto.MonthlyUserSolveHistoryDTO;
 import site.haruhana.www.dto.MonthlyUserSolveHistoryDTO.DailySolveStatus;
 import site.haruhana.www.dto.SignUpRequestDto;
 import site.haruhana.www.dto.UserDto;
+import site.haruhana.www.dto.LoginRequestDto;
+import site.haruhana.www.dto.TokenDto;
+import site.haruhana.www.dto.LoginResponseDto;
 import site.haruhana.www.entity.AuthProvider;
 import site.haruhana.www.entity.User;
 import site.haruhana.www.exception.DuplicateEmailException;
+import site.haruhana.www.exception.UnauthorizedException;
 import site.haruhana.www.repository.AttemptRepository;
 import site.haruhana.www.repository.UserRepository;
+import site.haruhana.www.utils.JwtUtil;
+import site.haruhana.www.utils.EncryptUtil;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -30,6 +36,8 @@ public class UserService {
 
     private final AttemptRepository attemptRepository;
 
+    private final JwtUtil jwtUtil;
+
     @Transactional
     public UserDto signUp(SignUpRequestDto request) {
         // 이메일 중복 확인
@@ -39,6 +47,24 @@ public class UserService {
 
         User savedUser = userRepository.save(new User(request));
         return new UserDto(savedUser);
+    }
+
+    @Transactional
+    public LoginResponseDto login(LoginRequestDto request) {
+        // 이메일로 사용자 조회
+        User user = userRepository.findByProviderAndEmail(AuthProvider.LOCAL, request.getEmail())
+                .orElseThrow(UnauthorizedException::new);
+
+        // 비밀번호 검증
+        if (!EncryptUtil.matches(request.getPassword(), user.getEncryptedPassword())) {
+            throw new UnauthorizedException();
+        }
+
+        // 토큰 생성
+        TokenDto tokens = jwtUtil.generateTokens(user);
+
+        // 사용자 정보와 토큰을 함께 반환
+        return new LoginResponseDto(user, tokens);
     }
 
     /**

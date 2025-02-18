@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import site.haruhana.www.dto.BaseResponse;
-import site.haruhana.www.dto.MonthlyUserSolveHistoryDTO;
-import site.haruhana.www.dto.SignUpRequestDto;
-import site.haruhana.www.dto.UserDto;
+import site.haruhana.www.dto.*;
 import site.haruhana.www.service.UserService;
 
 @RestController
@@ -17,6 +14,14 @@ import site.haruhana.www.service.UserService;
 public class UserController {
 
     private final UserService userService;
+
+    @PostMapping("/login")
+    public ResponseEntity<BaseResponse<LoginResponseDto>> login(@RequestBody LoginRequestDto requestDTO) {
+        LoginResponseDto data = userService.login(requestDTO);
+        BaseResponse<LoginResponseDto> response = BaseResponse.onSuccess("로그인에 성공하였습니다.", data);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<BaseResponse<UserDto>> signUp(@Valid @RequestBody SignUpRequestDto requestDTO) {
