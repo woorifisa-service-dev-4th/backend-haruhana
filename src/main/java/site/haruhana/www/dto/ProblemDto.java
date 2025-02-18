@@ -11,7 +11,6 @@ import site.haruhana.www.entity.ProblemCategory;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class ProblemDto {
     private Long id;
     private String title;
@@ -26,7 +25,19 @@ public class ProblemDto {
         this.description = problem.getDescription();
         this.answer = problem.getAnswer();
         this.level = problem.getLevel();
-        this.problemCategory = getProblemCategory();
+        this.problemCategory = problem.getProblemCategory();
+    }
+
+    @Override
+    public String toString() {
+        return "ProblemDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", answer=" + answer +
+                ", level=" + level +
+                ", problemCategory=" + problemCategory +
+                '}';
     }
 
 }
