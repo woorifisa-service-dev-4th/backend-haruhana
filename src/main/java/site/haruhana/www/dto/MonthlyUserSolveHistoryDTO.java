@@ -7,6 +7,7 @@ import java.util.List;
 @Getter
 public class MonthlyUserSolveHistoryDTO {
     private final List<DailySolveStatus> solveHistory;
+    private final int maxStreak; // 연속 학습일
 
     @Getter
     public static class DailySolveStatus {
@@ -19,7 +20,8 @@ public class MonthlyUserSolveHistoryDTO {
         }
     }
 
-    public MonthlyUserSolveHistoryDTO(List<DailySolveStatus> solveHistory) {
+    public MonthlyUserSolveHistoryDTO(List<DailySolveStatus> solveHistory, int maxStreak) {
         this.solveHistory = solveHistory;
+        this.maxStreak = maxStreak;
     }
 }

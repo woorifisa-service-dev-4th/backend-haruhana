@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.haruhana.www.dto.MonthlyUserSolveHistoryDTO;
 import site.haruhana.www.dto.MonthlyUserSolveHistoryDTO.DailySolveStatus;
 import site.haruhana.www.repository.AttemptRepository;
+import site.haruhana.www.utils.StreakCalculator;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -21,6 +22,7 @@ import java.util.List;
 public class UserService {
 
     private final AttemptRepository attemptRepository;
+    private final StreakCalculator streakCalculator;  // StreakCalculator 주입
 
     /**
      * 특정 사용자의 월별 문제 풀이 기록을 조회하는 메소드
@@ -58,7 +60,10 @@ public class UserService {
             currentDate = currentDate.plusDays(1);  // 다음 날짜로 이동
         }
 
+        // 연속 학습일 계산
+        int maxStreak = streakCalculator.calculateMaxStreak(attemptDates);
+
         // 최종 결과 반환
-        return new MonthlyUserSolveHistoryDTO(solveHistory);
+        return new MonthlyUserSolveHistoryDTO(solveHistory, maxStreak);
     }
 }
