@@ -46,7 +46,7 @@ class UserControllerIntegrationTest {
     @Test
     @DisplayName("유효한 월 파라미터로 조회 시 200 OK를 반환")
     void testGetUserSolveHistoryReturnsOkForValidMonth() throws Exception {
-        MonthlyUserSolveHistoryDTO testData = new MonthlyUserSolveHistoryDTO(Collections.emptyList());
+        MonthlyUserSolveHistoryDTO testData = new MonthlyUserSolveHistoryDTO(Collections.emptyList(), 0);
         when(userService.getMonthlyUserSolveHistory(1L, 2025, 5)).thenReturn(testData);
 
         mockMvc.perform(get("/api/users/1/solve-history")
