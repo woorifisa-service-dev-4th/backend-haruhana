@@ -2,6 +2,7 @@ package site.haruhana.www.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -59,5 +60,15 @@ public class Attempt {
      * 풀이의 성공 여부
      */
     private boolean success;
+
+    @Builder
+    public Attempt(Problem problem, User user, LocalDate date, int time, int userInput, boolean success) {
+        this.problem = problem;
+        this.user = user;
+        this.date = date;
+        this.time = time;
+        this.userInput = userInput;
+        this.success = success;
+    }
 
 }

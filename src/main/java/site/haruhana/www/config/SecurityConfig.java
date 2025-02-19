@@ -27,14 +27,14 @@ public class SecurityConfig {
     @Value("${spring.security.cors.allowed-origins}")
     private String allowedOrigins;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http,
-            CustomOAuth2UserService customOAuth2UserService,
-            OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler,
-            OAuth2LoginFailureHandler oAuth2LoginFailureHandler
-    ) throws Exception {
+    private final CustomOAuth2UserService customOAuth2UserService;
 
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
+    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable) // Rest API 사용으로 CSRF 비활성화.
                 .cors(cors -> {

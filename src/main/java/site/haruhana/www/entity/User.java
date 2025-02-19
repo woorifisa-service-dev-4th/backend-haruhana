@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.haruhana.www.dto.SignUpRequestDto;
 import site.haruhana.www.utils.EncryptUtil;
 
 @Entity
@@ -63,6 +64,14 @@ public class User extends BaseTimeEntity {
      */
     public void updatePassword(String rawPassword) {
         this.encryptedPassword = EncryptUtil.encrypt(rawPassword);
+    }
+
+    public User(SignUpRequestDto request) {
+        this.name = request.getName();
+        this.email = request.getEmail();
+        this.encryptedPassword = request.getPassword() != null ? EncryptUtil.encrypt(request.getPassword()) : null;
+        this.provider = AuthProvider.LOCAL;
+        this.role = Role.USER;
     }
 
     @Builder
