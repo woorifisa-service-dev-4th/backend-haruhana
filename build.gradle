@@ -5,6 +5,9 @@ plugins {
 
     // SonarQube
     id "org.sonarqube" version "6.0.1.5171"
+
+    // Jacoco
+    id 'jacoco'
 }
 
 // SonarQube
@@ -12,6 +15,20 @@ sonar {
     properties {
         property "sonar.projectKey", "haruhana"
         property "sonar.projectName", "haruhana"
+    }
+}
+
+// Jacoco
+jacoco {
+    toolVersion = "0.8.12"
+//    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
 
@@ -83,4 +100,13 @@ tasks.named('test') {
 // QueryDSL. 컴파일 시점에 기존에 생성된 파일들을 삭제하고 새로 생성
 clean {
     delete file('src/main/generated')
+}
+
+// Jacoco
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
 }
