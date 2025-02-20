@@ -19,7 +19,7 @@ public class ProblemController {
 
     @GetMapping
     public ResponseEntity<BaseResponse<Page<ProblemDto>>> getProblemList(Pageable pageable) {
-        Page<ProblemDto> data = problemService.getProblemList(pageable);
+        Page<ProblemDto> data = problemService.getAllProblems(pageable);
         BaseResponse<Page<ProblemDto>> response = BaseResponse.onSuccess("문제 목록 조회에 성공했습니다", data);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
