@@ -59,7 +59,7 @@ class AttemptRepositoryImplTest {
                 .title("테스트 문제")
                 .description("이것은 테스트를 위한 문제입니다.")
                 .level(1)
-                .answer("42")
+                .answer(3)
                 .problemCategory(ProblemCategory.BACKEND)
                 .build();
         em.persist(problem);
