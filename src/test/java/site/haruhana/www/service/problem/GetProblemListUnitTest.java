@@ -47,7 +47,7 @@ class GetProblemListUnitTest {
                     .willReturn(new PageImpl<>(new ArrayList<>()));
 
             // when: 문제 목록을 조회하면
-            Page<ProblemDto> result = problemService.getProblemList(pageable);
+            Page<ProblemDto> result = problemService.getAllProblems(pageable);
 
             // then: 빈 페이지가 반환된다
             assertAll(
@@ -73,7 +73,7 @@ class GetProblemListUnitTest {
                     .willReturn(new PageImpl<>(problems));
 
             // when: 문제 목록을 조회하면
-            Page<ProblemDto> result = problemService.getProblemList(pageable);
+            Page<ProblemDto> result = problemService.getAllProblems(pageable);
 
             // then: 하나의 문제가 반환된다
             assertAll(
@@ -108,7 +108,7 @@ class GetProblemListUnitTest {
                     .willReturn(new PageImpl<>(problems));
 
             // when: 문제 목록을 조회하면
-            Page<ProblemDto> result = problemService.getProblemList(pageable);
+            Page<ProblemDto> result = problemService.getAllProblems(pageable);
 
             // then: 페이지 크기만큼의 문제가 반환된다
             assertAll(
@@ -136,7 +136,7 @@ class GetProblemListUnitTest {
                     .willReturn(new PageImpl<>(problems, pageable, 3));
 
             // when: 문제 목록을 조회하면
-            Page<ProblemDto> result = problemService.getProblemList(pageable);
+            Page<ProblemDto> result = problemService.getAllProblems(pageable);
 
             // then: 해당 페이지의 문제가 반환된다
             assertAll(
@@ -163,7 +163,7 @@ class GetProblemListUnitTest {
                     .willReturn(new PageImpl<>(List.of(problem)));
 
             // when: 문제 목록을 조회하면
-            Page<ProblemDto> result = problemService.getProblemList(pageable);
+            Page<ProblemDto> result = problemService.getAllProblems(pageable);
             ProblemDto dto = result.getContent().get(0);
 
             // then: 모든 필드가 정확히 매핑되어 반환된다
