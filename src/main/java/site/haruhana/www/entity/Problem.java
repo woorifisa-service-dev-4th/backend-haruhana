@@ -42,8 +42,8 @@ public class Problem extends BaseTimeEntity {
     /**
      * 문제 정답
      */
-    @Column(columnDefinition = "INT")
-    private String answer;
+    @Column(name = "problem_answer", nullable = false)
+    private int answer;
 
     /**
      * 문제 카테고리
@@ -53,7 +53,7 @@ public class Problem extends BaseTimeEntity {
     private ProblemCategory problemCategory;
 
     @Builder
-    public Problem(String title, String description, int level, String answer, ProblemCategory problemCategory) {
+    public Problem(String title, String description, int level, int answer, ProblemCategory problemCategory) {
         this.title = title;
         this.description = description;
         this.level = level;
