@@ -56,6 +56,9 @@ public class UserService {
         List<LocalDate> attemptDates = attemptRepository
                 .findDistinctAttemptDatesByUserIdAndYearMonth(userId, year, month);
 
+        // 연속 학습일 조회
+        int maxConsecutiveStudyDays = getMaxConsecutiveStudyDays(attemptDates);
+
         // 입력받은 연월의 시작일과 마지막일을 계산
         YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate startDate = yearMonth.atDay(1);
@@ -78,6 +81,46 @@ public class UserService {
         }
 
         // 최종 결과 반환
-        return new MonthlyUserSolveHistoryDTO(solveHistory);
+        return new MonthlyUserSolveHistoryDTO(solveHistory, maxConsecutiveStudyDays);
     }
+
+    /**
+     * 주어진 날짜 리스트에서 최대 연속 학습일 수를 계산
+     *
+     * @param attemptDates 사용자의 학습 시도 날짜 리스트 (오름차순 정렬 필요)
+     * @return 최대 연속 학습일 수. 학습 기록이 없으면 0을 반환
+     */
+    protected int getMaxConsecutiveStudyDays(List<LocalDate> attemptDates) {
+        // 오늘 날짜를 가져오기
+        LocalDate today = LocalDate.now();
+
+        // 날짜가 없으면 0 반환
+        if (attemptDates.isEmpty()) {
+            return 0;
+        }
+
+        int maxStreak = 0;
+        int currentStreak = 0;
+        LocalDate prevDate = null;
+
+        // 연속 학습일 계산
+        for (LocalDate date : attemptDates) {
+            if (date.isAfter(today)) {
+                break; // 오늘 이후의 데이터는 무시
+            }
+
+            if (prevDate == null || prevDate.plusDays(1).equals(date)) {
+                currentStreak++; // 연속 학습일 증가
+            } else {
+                currentStreak = 1; // 끊기면 다시 1부터 시작
+            }
+
+            maxStreak = Math.max(maxStreak, currentStreak);
+            prevDate = date;
+        }
+
+        return maxStreak;
+    }
+
 }
+
