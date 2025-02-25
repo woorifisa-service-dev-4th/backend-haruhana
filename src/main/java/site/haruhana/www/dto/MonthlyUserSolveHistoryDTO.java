@@ -7,6 +7,7 @@ import java.util.List;
 @Getter
 public class MonthlyUserSolveHistoryDTO {
     private final List<DailySolveStatus> solveHistory;
+    private final int maxConsecutiveStudyDays;
 
     @Getter
     public static class DailySolveStatus {
@@ -19,7 +20,8 @@ public class MonthlyUserSolveHistoryDTO {
         }
     }
 
-    public MonthlyUserSolveHistoryDTO(List<DailySolveStatus> solveHistory) {
+    public MonthlyUserSolveHistoryDTO(List<DailySolveStatus> solveHistory, int maxConsecutiveStudyDays) {
         this.solveHistory = solveHistory;
+        this.maxConsecutiveStudyDays = maxConsecutiveStudyDays;
     }
 }
